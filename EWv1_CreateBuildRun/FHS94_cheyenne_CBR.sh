@@ -37,6 +37,8 @@ OVERWRITE=false
 COMP="FHS94"
 MACH="cheyenne"
 A_KEY="UCSU0085"
+#GDD # EW_INPUTDATA="/glade/p/univ/ucsu0085/inputdata"
+CESM_INPUTDATA="/glade/p/cesmdata/cseg/inputdata"
 PRE="" # Case prefix for uniqueness
 STOP_OPT=ndays    # For STOP_OPTION xml variable in a case
 STOP_N=10         # For STOP_N xml variables in a case
@@ -96,6 +98,7 @@ for NTASKS in ${NTASKSS[@]:-"-1"}; do
     CCMD="$CCMD --case $CASEROOT --project $A_KEY"
     CCMD="$CCMD --compiler $C_SUITE --res $GRID --compset $COMP"
     CCMD="$CCMD --driver nuopc --run-unsupported"
+    [ -n ${INPUTDATA} ] && CCMD="$CCMD --input-dir ${INPUTDATA}"
     [ $NTASKS -gt 0 ] && CCMD="$CCMD --pecount $NTASKS"
 
     vexec "$CCMD"

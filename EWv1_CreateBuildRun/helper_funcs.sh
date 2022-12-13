@@ -173,6 +173,14 @@ for NT in ${NTASKSS[@]:-"-1"}; do
     *) ;; # Do nothing otherwise
   esac
 done
+# Set input data directory
+if [ -n "$EW_INPUTDATA" ]; then
+  INPUTDATA="$EW_INPUTDATA"
+elif [ -n "$CESM_INPUTDATA" ]; then
+  INPUTDATA="$CESM_INPUTDATA"
+else
+  INPUTDATA=""
+fi
 # Not doing any steps is equivalent to a dry-run
 if [ "$DO_CREATE" = false ] && [ "$DO_BUILD" = false ] && [ "$DO_RUN" = false ]; then
   DRY_RUN=true
@@ -188,6 +196,7 @@ echo -e "Starting at $(date)"
 echo -e "Using:"
 echo -e "\tEarthWorks Repo at                   \"$SRCROOT\""
 echo -e "\tCreating cases in                    \"$CASES_DIR\""
+[ -n $INPUTDATA ] && echo -e "\tUsing input data from                \"$INPUTDATA\""
 echo -e "\tRunning with compilers               $(print_arr ${C_SUITES[@]})"
 echo -e "\tOn MPAS-A grids (km)                 $(print_arr ${RESS[@]})"
 if [ "$DRY_RUN" = true ] ; then
