@@ -12,9 +12,27 @@ THIS_FILE="helper_funcs.sh"
 ###############################################################################
 function vexec() {
   # Verbose execute, echo argument then run as a command
+  if [ $# -gt 1 ]; then
+    local VERBOSITY=$1; shift
+  fi
   [ $VERBOSITY -ge 1 ] && echo -e "+ $1"
-  [ $VERBOSITY -ge 2 ] && $1 || $1 > /dev/null 2>&1
+  if [ "$DRY_RUN" != true ]; then
+    [ $VERBOSITY -ge 2 ] && eval "$1" || eval "$1" > /dev/null 2>&1
+  fi
 }
+
+
+function vexecS() {
+  # Use vexec, but generally silent unless verbosity is increased
+  vexec $(($VERBOSITY - 2)) "$@"
+}
+
+
+function vexecL() {
+  # Use vexec, but always prints (acts like max verbosity)
+  vexec 2 "$@"
+}
+
 
 function print_arr() {
   # Override IFS to a comma and echo input array
@@ -200,7 +218,7 @@ else
   fi
 fi
 if [ ${#ARGS[@]} -gt 0 ]; then
-	echo -e "Unrecognized and ignored args: ${ARGS[@]}"
+  echo -e "Unrecognized and ignored args: ${ARGS[@]}"
 fi
 echo ""
 echo -e  "Cases:  ${PRE:+PRE_}COMPSET.GRID.MACHINE.COMPILER${NTASKSS:+.NTASKS}"
@@ -218,7 +236,7 @@ done
 echo -e "-------------------------------------------------------------------------\n\n"
 # End Print some info about the run of this script ############################
 
-# End early if DRY_RUN has been set
-if [ "$DRY_RUN" = true ] ; then
-  exit 0
-fi
+# GDD# # End early if DRY_RUN has been set
+# GDD# if [ "$DRY_RUN" = true ] ; then
+# GDD#   exit 0
+# GDD# fi

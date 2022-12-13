@@ -109,11 +109,11 @@ for NTASKS in ${NTASKSS[@]:-"-1"}; do
     ###########################################################################
     # Setup case: change XML variables, edit namelists, case.setup
     ###########################################################################
-    cd $CASEROOT
-    ./xmlchange CAM_CONFIG_OPTS="-phys held_suarez -analytic_ic -nlev 32"
-    ./xmlchange DOUT_S=false
-    ./xmlchange STOP_OPTION=$STOP_OPT
-    ./xmlchange STOP_N=$STOP_N
+    vexec "cd $CASEROOT"
+    vexec "./xmlchange CAM_CONFIG_OPTS='-phys held_suarez -analytic_ic -nlev 32'"
+    vexec "./xmlchange DOUT_S=false"
+    vexec "./xmlchange STOP_OPTION=$STOP_OPT"
+    vexec "./xmlchange STOP_N=$STOP_N"
 
 cat << __EOF_NL_CAM >> user_nl_cam
 mpas_block_decomp_file_prefix = "$BLCK_PRE"

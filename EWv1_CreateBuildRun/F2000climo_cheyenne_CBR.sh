@@ -109,11 +109,11 @@ for NTASKS in ${NTASKSS[@]:-"-1"}; do
     ###########################################################################
     # Setup case: change XML variables, edit namelists, case.setup
     ###########################################################################
-    cd $CASEROOT
-    ./xmlchange LND_DOMAIN_FILE="domain.lnd.mpasa120_gx1v7.201215.nc"
-    ./xmlchange DOUT_S=false
-    ./xmlchange STOP_OPTION=$STOP_OPT
-    ./xmlchange STOP_N=$STOP_N
+    vexec "cd $CASEROOT"
+    vexec "./xmlchange LND_DOMAIN_FILE='domain.lnd.mpasa120_gx1v7.201215.nc'"
+    vexec "./xmlchange DOUT_S=false"
+    vexec "./xmlchange STOP_OPTION=$STOP_OPT"
+    vexec "./xmlchange STOP_N=$STOP_N"
 
 cat << __EOF_NL_CAM >> user_nl_cam
 mpas_block_decomp_file_prefix = "$BLCK_PRE"
